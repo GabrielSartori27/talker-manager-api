@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
 
-app.get('/talker', function (req, res) {
+app.get('/talker', (req, res) => {
   const talkerFile = './talker.json';
   const data = JSON.parse(fs.readFileSync(talkerFile, 'utf8'));
   res.status(200).json(data);
