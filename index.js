@@ -5,6 +5,8 @@ const fs = require('fs');
 const app = express();
 app.use(bodyParser.json());
 
+const crypto = require('crypto');
+
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
 
@@ -25,6 +27,11 @@ app.get('/talker/:id', (req, res) => {
   const talker = talkersList.find((t) => t.id === Number(id));
   if (!talker) return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   res.status(200).json(talker);
+});
+
+app.post('/login', (req, res) => {
+  const token = crypto.randomBytes(8).toString('hex');
+  res.status(200).json({ token });
 });
 
 // não remova esse endpoint, e para o avaliador funcionar
