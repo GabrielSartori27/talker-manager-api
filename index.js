@@ -29,9 +29,27 @@ app.get('/talker/:id', (req, res) => {
   res.status(200).json(talker);
 });
 
+// The function "validateEmail" was taken from the site: https://www.horadecodar.com.br/2020/09/13/como-validar-email-com-javascript/
+function validateEmail(email) {
+  const re = /\S+@\S+\.\S+/;
+  return re.test(email);
+}
+
 app.post('/login', (req, res) => {
+  const { email, password } = req.body;
   const token = crypto.randomBytes(8).toString('hex');
-  res.status(200).json({ token });
+  switch (true) {
+    case !email:
+      return res.status(400).json({ message: 'O campo "email" é obrigatório' });
+    case !validateEmail(email):
+      return res.status(400).json({ message: 'O "email" deve ter o formato "email@email.com"' });
+    case !password:
+      return res.status(400).json({ message: 'O campo "password" é obrigatório' });
+    case password.length < 6:
+      return res.status(400).json({ message: 'O "password" deve ter pelo menos 6 caracteres' });
+    default:
+      return res.status(200).json({ token });
+  }
 });
 
 // não remova esse endpoint, e para o avaliador funcionar
