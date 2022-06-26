@@ -84,7 +84,10 @@ const validateTalkWatchedAt = (res, talk) => {
 };
 
 const validateTalkRate = (res, talk) => {
-  if (!talk.rate) return res.status(400).json({ message: 'O campo "rate" é obrigatório' });
+  if (!talk.rate && talk.rate !== 0) {
+ return res.status(400)
+  .json({ message: 'O campo "rate" é obrigatório' }); 
+}
   if (talk.rate < 1 || talk.rate > 5 || talk.rate.length > 1) {
     return res.status(400).json({ message: 'O campo "rate" deve ser um inteiro de 1 à 5' });
   }
@@ -126,6 +129,24 @@ age,
     talkerList = await getList();
     return res.status(201).json(talkerList[talkerList.length - 1]);
   });
+});
+
+app.put('/talker/:id', async (req, res) => {
+  const { id } = req.params;
+  const { name, age, talk } = req.body;
+  const token = req.headers.authorization;
+  if (!token) return res.status(401).json({ message: 'Token não encontrado' });
+  if (token.length !== 16) return res.status(401).json({ message: 'Token inválido' });
+  const checkedInformation = checkInformation(res, name, talk, age);
+  if (checkedInformation) return checkedInformation;
+  let talkerList = await getList();
+  const talker = talkerList.findIndex((element) => element.id === Number(id));
+  talkerList[talker] = { ...talkerList[talker], name, age, talk };
+  fs.writeFile('./talker.json', JSON.stringify(talkerList))
+      .then(async () => {
+        talkerList = await getList();
+        return res.status(200).json(talkerList[talker]);
+      });
 });
 
 // não remova esse endpoint, e para o avaliador funcionar
