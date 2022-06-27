@@ -145,12 +145,27 @@ app.put('/talker/:id', async (req, res) => {
   const checkedInformation = checkInformation(res, name, talk, age);
   if (checkedInformation) return checkedInformation;
   let talkerList = await getList();
-  const talker = talkerList.findIndex((element) => element.id === Number(id));
-  talkerList[talker] = { ...talkerList[talker], name, age, talk };
+  const talkerId = talkerList.findIndex((element) => element.id === Number(id));
+  talkerList[talkerId] = { ...talkerList[talkerId], name, age, talk };
   fs.writeFile('./talker.json', JSON.stringify(talkerList))
       .then(async () => {
         talkerList = await getList();
-        return res.status(200).json(talkerList[talker]);
+        return res.status(200).json(talkerList[talkerId]);
+      });
+});
+
+app.delete('/talker/:id', async (req, res) => {
+  const { id } = req.params;
+  const token = req.headers.authorization;
+  if (!token) return res.status(401).json({ message: 'Token não encontrado' });
+  if (token.length !== 16) return res.status(401).json({ message: 'Token inválido' });
+  let talkerList = await getList();
+  const talkerId = talkerList.findIndex((element) => element.id === Number(id));
+  talkerList.splice(talkerId, 1);
+  fs.writeFile('./talker.json', JSON.stringify(talkerList))
+      .then(async () => {
+        talkerList = await getList();
+        return res.status(204).end();
       });
 });
 
