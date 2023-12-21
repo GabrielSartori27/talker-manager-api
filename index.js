@@ -20,10 +20,34 @@ const getList = async () => {
   return data;
 };
 
+const checkToken = (req, res) => {
+  const token = req.headers.authorization;
+  if (!token) return res.status(401).json({ message: 'Token não encontrado' });
+  if (token.length !== 16) return res.status(401).json({ message: 'Token inválido' });
+}
+
 app.get('/talker', async (req, res) => {
   const talkersList = await getList();
   res.status(200).json(talkersList);
 });
+
+app.get('/talker/search', async (req, res) => {
+  const checkedToken = checkToken(req, res);
+  if(checkedToken) return checkedToken;
+  try {
+    const { q } = req.query;
+    const talkerList = await getList();
+    if (q) {
+      const filteredTalkers = talkerList.filter((e) => e.name.includes(q));
+      return res.status(200).json(filteredTalkers);
+    }
+    else {
+      return res.status(200).json(talkerList);
+    }
+  } catch (err) {
+    res.status(500).send({message: err.message});
+  }
+})
 
 app.get('/talker/:id', async (req, res) => {
   const talkersList = await getList();
@@ -117,9 +141,8 @@ const checkInformation = (res, name, talk, age) => {
 
 app.post('/talker', async (req, res) => {
   const { name, age, talk } = req.body;
-  const token = req.headers.authorization;
-  if (!token) return res.status(401).json({ message: 'Token não encontrado' });
-  if (token.length !== 16) return res.status(401).json({ message: 'Token inválido' });
+  const checkedToken = checkToken(req, res);
+  if(checkedToken) return checkedToken;
   const checkedInformation = checkInformation(res, name, talk, age);
   if (checkedInformation) return checkedInformation;
   let talkerList = await getList();
@@ -168,6 +191,7 @@ app.delete('/talker/:id', async (req, res) => {
         return res.status(204).end();
       });
 });
+
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
