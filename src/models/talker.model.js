@@ -5,8 +5,16 @@ const TalkerModel = (sequelize, DataTypes) => {
         email: DataTypes.STRING,
         password: DataTypes.STRING
     }, {
-        tableName: 'Talkers'
+        timestamps: false,
+        tableName: 'talkers',
+        underscored: true,
     });
+
+    Talker.associate = (models) => {
+        Talker.hasMany(models.Talks,
+          { foreignKey: 'talkerId', as: 'talks' });
+      };
+
     await Talker.sync({ force: true });
     return Talker;
 }
