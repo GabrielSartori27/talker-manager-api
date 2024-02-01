@@ -49,13 +49,13 @@ app.get('/talker/search', async (req, res) => {
   }
 })
 
-app.get('/talker/:id', async (req, res) => {
+/* app.get('/talker/:id', async (req, res) => {
   const talkersList = await getList();
   const { id } = req.params;
   const talker = talkersList.find((t) => t.id === Number(id));
   if (!talker) return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   res.status(200).json(talker);
-});
+}); */
 
 // The function "validateEmail" was taken from the site: https://www.horadecodar.com.br/2020/09/13/como-validar-email-com-javascript/
 function validateEmail(email) {

@@ -24,6 +24,7 @@
     "dotenv": "^16.4.1",
     "express": "4.17.1",
     "express-rescue": "1.1.30",
+    "joi": "17.6.0",
     "moment": "^2.29.3",
     "mysql2": "3.0.0",
     "sequelize": "6.3.4"
