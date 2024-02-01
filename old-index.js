@@ -26,10 +26,10 @@ const checkToken = (req, res) => {
   if (token.length !== 16) return res.status(401).json({ message: 'Token inválido' });
 }
 
-app.get('/talker', async (req, res) => {
+/* app.get('/talker', async (req, res) => {
   const talkersList = await getList();
   res.status(200).json(talkersList);
-});
+}); */
 
 app.get('/talker/search', async (req, res) => {
   const checkedToken = checkToken(req, res);

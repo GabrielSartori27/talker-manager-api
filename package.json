@@ -2,13 +2,17 @@
   "name": "sd-0x-project-talker-manager",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
     "test": "jest --runInBand --verbose --forceExit",
     "posttest": "cp tests/seed.json talker.json",
     "restore": "cp tests/seed.json talker.json",
-    "start": "node index.js",
-    "dev": "nodemon index.js --ignore 'talker.json'",
+    "start": "node .",
+    "dev": "nodemon src/server.js",
+    "create": "npx sequelize-cli db:create",
+    "migrate": "npx sequelize-cli db:migrate",
+    "seed": "npx sequelize-cli db:seed:all",
+    "drop": "npx sequelize-cli db:drop",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json ."
   },
   "keywords": [],
@@ -17,6 +21,7 @@
   "dependencies": {
     "body-parser": "1.19.0",
     "crypto-js": "4.0.0",
+    "dotenv": "^16.4.1",
     "express": "4.17.1",
     "express-rescue": "1.1.30",
     "moment": "^2.29.3",

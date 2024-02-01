@@ -10,12 +10,11 @@ const TalkerModel = (sequelize, DataTypes) => {
         underscored: true,
     });
 
-    Talker.associate = (models) => {
-        Talker.hasMany(models.Talks,
+    TalkerModel.associate = (models) => {
+        TalkerModel.hasMany(models.Talk,
           { foreignKey: 'talkerId', as: 'talks' });
       };
 
-    await Talker.sync({ force: true });
     return Talker;
 }
 module.exports = TalkerModel;

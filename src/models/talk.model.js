@@ -1,6 +1,4 @@
-// src/models/address.model.js
-
-module.exports = (sequelize, DataTypes) => {
+const TalkModel = (sequelize, DataTypes) => {
     const Talk = sequelize.define('Talk', {
       id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
       watchedAt: {type: DataTypes.DATE},
@@ -13,10 +11,12 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true,
     });
   
-    Talk.associate = (models) => {
-      Talk.belongsTo(models.Talker,
-        { foreignKey: 'talkerId', as: 'talkers' });
+    TalkModel.associate = (models) => {
+      TalkModel.belongsTo(models.Talker,
+        { foreignKey: 'talkerId', as: 'talker' });
     };
   
     return Talk;
   };
+
+  module.exports = TalkModel;
