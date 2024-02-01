@@ -18,7 +18,17 @@ const getTalkerById = async (req, res) => {
   res.status(200).json(message);
 };
 
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  const { type, message } = await TalkerService.login(email, password);
+
+  if(type) return res.status(errorMap.mapError(type)).json(message);
+
+  res.status(200).json({token: message});
+}
+
   module.exports = {
       getAll,
       getTalkerById,
+      login,
   };

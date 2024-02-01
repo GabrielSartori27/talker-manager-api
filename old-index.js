@@ -57,12 +57,12 @@ app.get('/talker/search', async (req, res) => {
 }); */
 
 // The function "validateEmail" was taken from the site: https://www.horadecodar.com.br/2020/09/13/como-validar-email-com-javascript/
-function validateEmail(email) {
+/* function validateEmail(email) {
   const re = /\S+@\S+\.\S+/;
   return re.test(email);
-}
+} */
 
-app.post('/login', (req, res) => {
+/* app.post('/login', (req, res) => {
   const { email, password } = req.body;
   const token = crypto.randomBytes(8).toString('hex');
   switch (true) {
@@ -77,7 +77,7 @@ app.post('/login', (req, res) => {
     default:
       return res.status(200).json({ token });
   }
-});
+}); */
 
 const validateName = (res, name) => {
   if (!name) return res.status(400).json({ message: 'O campo "name" é obrigatório' });
