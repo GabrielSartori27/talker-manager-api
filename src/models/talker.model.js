@@ -3,7 +3,7 @@ const TalkerModel = (sequelize, DataTypes) => {
         fullName: DataTypes.STRING,
         age: DataTypes.INTEGER,
         email: DataTypes.STRING,
-        password: DataTypes.STRING
+        password: DataTypes.STRING,
     }, {
         timestamps: false,
         tableName: 'talkers',
@@ -16,5 +16,5 @@ const TalkerModel = (sequelize, DataTypes) => {
       };
 
     return Talker;
-}
+};
 module.exports = TalkerModel;

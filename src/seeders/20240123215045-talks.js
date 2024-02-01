@@ -1,9 +1,6 @@
-'use strict';
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  up: async (queryInterface, _Sequelize) => {
-    return queryInterface.bulkInsert('talks',
+  up: async (queryInterface, _Sequelize) => queryInterface.bulkInsert('talks',
       [
         {
           watched_at: '2024-02-25',
@@ -21,11 +18,7 @@ module.exports = {
           talker_id: 1,
         },
       ],
-      {},
-    );
-  },
+      {}),
 
-  down: async (queryInterface, _Sequelize) => {
-    return queryInterface.bulkDelete('talks', null, {});
-  },
+  down: async (queryInterface, _Sequelize) => queryInterface.bulkDelete('talks', null, {}),
 };
