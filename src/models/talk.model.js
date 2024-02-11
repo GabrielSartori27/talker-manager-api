@@ -1,7 +1,7 @@
 const TalkModel = (sequelize, DataTypes) => {
     const Talk = sequelize.define('Talk', {
       id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-      watchedAt: { type: DataTypes.DATE },
+      watchedAt: { type: DataTypes.DATEONLY },
       rate: { type: DataTypes.FLOAT },
       talkerId: { type: DataTypes.INTEGER, foreignKey: true },
     },
@@ -11,8 +11,8 @@ const TalkModel = (sequelize, DataTypes) => {
       underscored: true,
     });
   
-    TalkModel.associate = (models) => {
-      TalkModel.belongsTo(models.Talker,
+    Talk.associate = (models) => {
+      Talk.belongsTo(models.Talker,
         { foreignKey: 'talkerId', as: 'talker' });
     };
   

@@ -9,7 +9,7 @@ module.exports = {
       },
       watchedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         field: 'watched_at',
       },
       rate: {

@@ -22,13 +22,23 @@ const login = async (req, res) => {
   const { email, password } = req.body;
   const { type, message } = await TalkerService.login(email, password);
 
-  if(type) return res.status(errorMap.mapError(type)).json(message);
+  if (type) return res.status(errorMap.mapError(type)).json(message);
 
-  res.status(200).json({token: message});
-}
+  res.status(200).json({ token: message });
+};
+
+const addTalker = async (req, res) => {
+  const { name, age, email, password, talk } = req.body;
+  const { type, message } = await TalkerService.addTalker(name, age, email, password, talk);
+
+  if (type) return res.status(errorMap.mapError(type)).json(message);
+
+  res.status(200).json(message);
+};
 
   module.exports = {
       getAll,
       getTalkerById,
       login,
+      addTalker,
   };
