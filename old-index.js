@@ -138,7 +138,7 @@ const checkInformation = (res, name, talk, age) => {
   if (checkedTalk) return checkedTalk;
 };
 
-app.post('/talker', async (req, res) => {
+/* app.post('/talker', async (req, res) => {
   const { name, age, talk } = req.body;
   const checkedToken = checkToken(req, res);
   if (checkedToken) return checkedToken;
@@ -156,7 +156,7 @@ age,
     talkerList = await getList();
     return res.status(201).json(talkerList[talkerList.length - 1]);
   });
-});
+}); */
 
 app.put('/talker/:id', async (req, res) => {
   const { id } = req.params;

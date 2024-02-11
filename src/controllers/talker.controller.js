@@ -33,7 +33,7 @@ const addTalker = async (req, res) => {
 
   if (type) return res.status(errorMap.mapError(type)).json(message);
 
-  res.status(200).json(message);
+  res.status(201).json(message);
 };
 
   module.exports = {
