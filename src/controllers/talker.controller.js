@@ -46,10 +46,20 @@ const updateTalker = async (req, res) => {
   res.status(200).json(message);
 };
 
+const deleteTalker = async (req, res) => {
+  const {id} = req.params;
+  const { type, message } = await TalkerService.deleteTalker(id);
+  
+  if (type) return res.status(errorMap.mapError(type)).json(message);
+
+  res.status(204);
+}
+
   module.exports = {
       getAll,
       getTalkerById,
       login,
       addTalker,
       updateTalker,
+      deleteTalker,
   };

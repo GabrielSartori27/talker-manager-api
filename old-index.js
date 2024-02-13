@@ -158,7 +158,7 @@ age,
   });
 }); */
 
-app.put('/talker/:id', async (req, res) => {
+/* app.put('/talker/:id', async (req, res) => {
   const { id } = req.params;
   const { name, age, talk } = req.body;
   const token = req.headers.authorization;
@@ -174,9 +174,9 @@ app.put('/talker/:id', async (req, res) => {
         talkerList = await getList();
         return res.status(200).json(talkerList[talkerId]);
       });
-});
+}); */
 
-app.delete('/talker/:id', async (req, res) => {
+/* app.delete('/talker/:id', async (req, res) => {
   const { id } = req.params;
   const token = req.headers.authorization;
   if (!token) return res.status(401).json({ message: 'Token não encontrado' });
@@ -189,7 +189,7 @@ app.delete('/talker/:id', async (req, res) => {
         talkerList = await getList();
         return res.status(204).end();
       });
-});
+}); */
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {

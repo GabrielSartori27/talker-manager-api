@@ -11,5 +11,6 @@ app.get('/talker/:id', Talker.getTalkerById);
 app.post('/login', Talker.login);
 app.post('/talker', Talker.addTalker);
 app.put('/talker/:id', Talker.updateTalker);
+app.delete('/talker/:id', Talker.deleteTalker);
 
 module.exports = app;

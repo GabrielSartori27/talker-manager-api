@@ -66,10 +66,21 @@ const updateTalker = async (id, name, age, talk) => {
     return { type: null, message: talker };
 };
 
+const deleteTalker = async (id) => {
+    const idError = schema.validateId(id);
+    if (idError.type) return idError;
+
+    await Talker.destroy({where: {id}});
+    await Talk.destroy({where:{talkerId: id}});
+
+    return {type: null};
+}
+
 module.exports = {
     findAll,
     findById,
     login,
     addTalker,
     updateTalker,
+    deleteTalker,
 };
