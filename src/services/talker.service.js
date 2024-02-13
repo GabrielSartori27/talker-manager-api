@@ -4,7 +4,7 @@ const { Talker, Talk } = require('../models/index');
 const schema = require('./validations/validationsInputValues');
 
 const findAll = async () => {
-    const talkers = await Talker.findAll({ attributes: { exclude: ['password'] } });
+    const talkers = await Talker.findAll({ attributes: { exclude: ['password'] }, include: 'talks' });
     return { type: null, message: talkers };
 };
 
@@ -12,7 +12,7 @@ const findById = async (id) => {
     const error = schema.validateId(id);
     if (error.type) return error;
     
-    const talker = await Talker.findByPk(id, { attributes: { exclude: ['password'] } });
+    const talker = await Talker.findByPk(id, { attributes: { exclude: ['password'] }, include: 'talks' });
     if (!talker) return { type: 'USER_NOT_FOUND', message: 'Usuário não encontrado' };
 
     return { type: null, message: talker };
