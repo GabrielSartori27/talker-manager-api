@@ -47,9 +47,29 @@ const addTalker = async (name, age, email, password, talk) => {
     return { type: null, message: newTalker };
 };
 
+const updateTalker = async (id, name, age, talk) => {
+    const idError = schema.validateId(id);
+    if (idError.type) return idError;
+    const nameError = schema.validateName(name);
+    if (nameError.type) return nameError;
+    const ageError = schema.validateAge(age);
+    if (ageError.type) return ageError;
+    const talkError = schema.validateTalk(talk);
+    if (talkError.type) return talkError;
+
+    await Talker.update({ fullName: name, age }, { where: { id } });
+    await Talk.update({ watchedAt: talk.watchedAt, rate: talk.rate }, 
+        { where: { talkerId: id } });
+    const talker = await Talker.findByPk(id, { attributes: { exclude: ['password'] }, 
+        include: 'talks' });
+
+    return { type: null, message: talker };
+};
+
 module.exports = {
     findAll,
     findById,
     login,
     addTalker,
+    updateTalker,
 };

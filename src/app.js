@@ -10,5 +10,6 @@ app.get('/talker', Talker.getAll);
 app.get('/talker/:id', Talker.getTalkerById);
 app.post('/login', Talker.login);
 app.post('/talker', Talker.addTalker);
+app.put('/talker/:id', Talker.updateTalker);
 
 module.exports = app;

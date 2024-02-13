@@ -36,9 +36,20 @@ const addTalker = async (req, res) => {
   res.status(201).json(message);
 };
 
+const updateTalker = async (req, res) => {
+  const { id } = req.params;
+  const { name, age, talk } = req.body;
+  const { type, message } = await TalkerService.updateTalker(id, name, age, talk);
+
+  if (type) return res.status(errorMap.mapError(type)).json(message);
+
+  res.status(200).json(message);
+};
+
   module.exports = {
       getAll,
       getTalkerById,
       login,
       addTalker,
+      updateTalker,
   };
