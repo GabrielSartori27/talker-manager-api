@@ -4,7 +4,8 @@ const { Talker, Talk } = require('../models/index');
 const schema = require('./validations/validationsInputValues');
 
 const findAll = async () => {
-    const talkers = await Talker.findAll({ attributes: { exclude: ['password'] }, include: 'talks' });
+    const talkers = await Talker.findAll({ attributes: { exclude: ['password'] }, 
+    include: 'talks' });
     return { type: null, message: talkers };
 };
 
@@ -12,7 +13,8 @@ const findById = async (id) => {
     const error = schema.validateId(id);
     if (error.type) return error;
     
-    const talker = await Talker.findByPk(id, { attributes: { exclude: ['password'] }, include: 'talks' });
+    const talker = await Talker.findByPk(id, { attributes: { exclude: ['password'] }, 
+    include: 'talks' });
     if (!talker) return { type: 'USER_NOT_FOUND', message: 'Usuário não encontrado' };
 
     return { type: null, message: talker };
@@ -69,12 +71,14 @@ const updateTalker = async (id, name, age, talk) => {
 const deleteTalker = async (id) => {
     const idError = schema.validateId(id);
     if (idError.type) return idError;
+    const talker = await Talker.findByPk(id, { attributes: { exclude: ['password'] } });
+    if (!talker) return { type: 'USER_NOT_FOUND', message: 'Usuário não encontrado' };
 
-    await Talker.destroy({where: {id}});
-    await Talk.destroy({where:{talkerId: id}});
+    await Talker.destroy({ where: { id } });
+    await Talk.destroy({ where: { talkerId: id } });
 
-    return {type: null};
-}
+    return { type: null };
+};
 
 module.exports = {
     findAll,

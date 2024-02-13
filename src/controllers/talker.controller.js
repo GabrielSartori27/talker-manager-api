@@ -47,13 +47,13 @@ const updateTalker = async (req, res) => {
 };
 
 const deleteTalker = async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   const { type, message } = await TalkerService.deleteTalker(id);
   
   if (type) return res.status(errorMap.mapError(type)).json(message);
 
-  res.status(204);
-}
+  return res.status(204).end();
+};
 
   module.exports = {
       getAll,
