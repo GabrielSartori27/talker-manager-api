@@ -1,4 +1,4 @@
-const moment = require('moment');
+/* const moment = require('moment');
 // npm install -g moment --save
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -11,9 +11,9 @@ const crypto = require('crypto');
 // const { json } = require('express/lib/response');
 
 const HTTP_OK_STATUS = 200;
-const PORT = '3000';
+const PORT = '3000'; */
 
-const getList = async () => {
+/* const getList = async () => {
   const talkerFile = './talker.json';
   const data = fs.readFile(talkerFile, 'utf8')
   .then((result) => JSON.parse(result));
@@ -24,14 +24,14 @@ const checkToken = (req, res) => {
   const token = req.headers.authorization;
   if (!token) return res.status(401).json({ message: 'Token não encontrado' });
   if (token.length !== 16) return res.status(401).json({ message: 'Token inválido' });
-};
+}; */
 
 /* app.get('/talker', async (req, res) => {
   const talkersList = await getList();
   res.status(200).json(talkersList);
 }); */
 
-app.get('/talker/search', async (req, res) => {
+/* app.get('/talker/search', async (req, res) => {
   const checkedToken = checkToken(req, res);
   if (checkedToken) return checkedToken;
   try {
@@ -46,7 +46,7 @@ app.get('/talker/search', async (req, res) => {
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
-});
+}); */
 
 /* app.get('/talker/:id', async (req, res) => {
   const talkersList = await getList();
@@ -79,7 +79,7 @@ app.get('/talker/search', async (req, res) => {
   }
 }); */
 
-const validateName = (res, name) => {
+/* const validateName = (res, name) => {
   if (!name) return res.status(400).json({ message: 'O campo "name" é obrigatório' });
   if (name.length < 3) {
  return res.status(400)
@@ -136,7 +136,7 @@ const checkInformation = (res, name, talk, age) => {
   if (checkedName) return checkedName;
   if (chechedAge) return chechedAge;
   if (checkedTalk) return checkedTalk;
-};
+}; */
 
 /* app.post('/talker', async (req, res) => {
   const { name, age, talk } = req.body;
@@ -192,10 +192,11 @@ age,
 }); */
 
 // não remova esse endpoint, e para o avaliador funcionar
-app.get('/', (_request, response) => {
+/* app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
 app.listen(PORT, () => {
   console.log('Online');
 });
+ */

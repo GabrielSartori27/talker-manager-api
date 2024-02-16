@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
+const { Op } = require('sequelize');
 const { Talker, Talk } = require('../models/index');
 const schema = require('./validations/validationsInputValues');
 
@@ -80,6 +81,22 @@ const deleteTalker = async (id) => {
     return { type: null };
 };
 
+const findByQuery = async (query) => {
+    if (!query) {
+        const allTalkers = await Talker.findAll({ attributes: { exclude: ['password'] }, 
+            include: 'talks' });
+        return { type: null, message: allTalkers };
+    }
+
+    const talker = await Talker.findAll({ where: { fullName: { [Op.like]: `%${query}%` } }, 
+        attributes: { exclude: ['password'] },
+include: 'talks' });
+
+    if (!talker) return { type: null, message: [] };
+
+    return { type: null, message: talker };
+};
+
 module.exports = {
     findAll,
     findById,
@@ -87,4 +104,5 @@ module.exports = {
     addTalker,
     updateTalker,
     deleteTalker,
+    findByQuery,
 };

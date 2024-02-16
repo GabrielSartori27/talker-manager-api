@@ -55,6 +55,13 @@ const deleteTalker = async (req, res) => {
   return res.status(204).end();
 };
 
+const getByQuery = async (req, res) => {
+  const { q } = req.query;
+  const { message } = await TalkerService.findByQuery(q);
+
+  return res.status(200).json(message);
+};
+
   module.exports = {
       getAll,
       getTalkerById,
@@ -62,4 +69,5 @@ const deleteTalker = async (req, res) => {
       addTalker,
       updateTalker,
       deleteTalker,
+      getByQuery,
   };
