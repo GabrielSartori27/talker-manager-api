@@ -41,7 +41,8 @@ const login = async (email, password) => {
     return { type: null, message: token };
 };
 
-const addTalker = async (name, age, email, password, talk) => {
+const addTalker = async (talker) => {
+    const { name, age, email, password, talk } = talker;
     const talkerError = schema.validateTalker(name, age, email, password);
     if (talkerError.type) return talkerError;
     const talkError = schema.validateTalk(talk);
@@ -68,24 +69,19 @@ const updateTalk = async (id, talk) => {
     return true;
 };
 
-const updateTalker = async (id, name, age, talk, data) => {
-    const idError = schema.validateId(id);
-    if (idError.type) return idError;
-    const nameError = schema.validateName(name);
-    if (nameError.type) return nameError;
-    const ageError = schema.validateAge(age);
-    if (ageError.type) return ageError;
-    const talkError = schema.validateTalk(talk);
-    if (talkError.type) return talkError;
+const updateTalker = async (id, talker, data) => {
+    const { name, age, talk } = talker;
+    const talkerError = schema.validateUpdatedTalker(id, talker);
+    if (talkerError.type) return talkerError;
     if (id !== data.id.toString()) {
         return { type: 'INVALID_TOKEN', message: 'Usuário não autorizado' };
-    };
+    }
     await Talker.update({ fullName: name, age }, { where: { id } });
     await updateTalk(id, talk);
-    const talker = await Talker.findByPk(id, { attributes: { exclude: ['password'] }, 
+    const updatedTalker = await Talker.findByPk(id, { attributes: { exclude: ['password'] }, 
         include: 'talks' });
-
-    return { type: null, message: talker };
+    
+    return { type: null, message: updatedTalker };
 };
 
 const deleteTalker = async (id) => {
@@ -107,9 +103,11 @@ const findByQuery = async (query) => {
         return { type: null, message: allTalkers };
     }
 
-    const talker = await Talker.findAll({ where: { fullName: { [Op.like]: `%${query}%` } }, 
-        attributes: { exclude: ['password'] },
-include: 'talks' });
+    const talker = await Talker.findAll({ 
+        where: { fullName: { [Op.like]: `%${query}%` } }, 
+                attributes: { exclude: ['password'] },
+                include: 'talks', 
+    });
 
     if (!talker) return { type: null, message: [] };
 

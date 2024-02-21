@@ -28,8 +28,8 @@ const login = async (req, res) => {
 };
 
 const addTalker = async (req, res) => {
-  const { name, age, email, password, talk } = req.body;
-  const { type, message } = await TalkerService.addTalker(name, age, email, password, talk);
+  const newTalker = req.body;
+  const { type, message } = await TalkerService.addTalker(newTalker);
 
   if (type) return res.status(errorMap.mapError(type)).json(message);
 
@@ -39,8 +39,8 @@ const addTalker = async (req, res) => {
 const updateTalker = async (req, res) => {
   const { id } = req.params;
   const { dataValues } = req.user.message;
-  const { name, age, talk } = req.body;
-  const { type, message } = await TalkerService.updateTalker(id, name, age, talk, dataValues);
+  const talker = req.body;
+  const { type, message } = await TalkerService.updateTalker(id, talker, dataValues);
 
   if (type) return res.status(errorMap.mapError(type)).json(message);
 

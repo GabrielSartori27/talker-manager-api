@@ -80,6 +80,20 @@ const validateTalker = (name, age, email, password) => {
   return { type: null };
 };
 
+const validateUpdatedTalker = (id, talker) => {
+  const { name, age, talk } = talker;
+  const idError = validateId(id);
+  if (idError.type) return idError;
+  const nameError = validateName(name);
+  if (nameError.type) return nameError;
+  const ageError = validateAge(age);
+  if (ageError.type) return ageError;
+  const talkError = validateTalk(talk);
+  if (talkError.type) return talkError;
+
+  return { type: null };
+};
+
 module.exports = {
   validateId,
   validateEmail,
@@ -88,4 +102,5 @@ module.exports = {
   validateName,
   validateTalk,
   validateTalker,
+  validateUpdatedTalker,
 };
