@@ -1,8 +1,10 @@
-const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { Op } = require('sequelize');
 const { Talker, Talk } = require('../models/index');
 const schema = require('./validations/validationsInputValues');
+
+const secret = process.env.JWT_SECRET;
 
 const findAll = async () => {
     const talkers = await Talker.findAll({ attributes: { exclude: ['password'] }, 
@@ -30,7 +32,12 @@ const login = async (email, password) => {
     const user = await Talker.findOne({ where: { email, password } });
     if (!user) return { type: 'USER_NOT_FOUND', message: 'Usuário não encontrado' };
 
-    const token = crypto.randomBytes(8).toString('hex');
+    const jwtConfig = {
+        expiresIn: '7d',
+        algorithm: 'HS256',
+      };
+    
+    const token = jwt.sign({ data: { userId: user.id, userEmail: user.email } }, secret, jwtConfig);
     return { type: null, message: token };
 };
 
@@ -50,7 +57,18 @@ const addTalker = async (name, age, email, password, talk) => {
     return { type: null, message: newTalker };
 };
 
-const updateTalker = async (id, name, age, talk) => {
+const updateTalk = async (id, talk) => {
+    const checkTalk = await Talk.findOne({ where: { talkerId: id } });
+    if (!checkTalk) {
+        await Talk.create({ talkerId: id, watchedAt: talk.watchedAt, rate: talk.rate });
+        return true;
+    }
+    await Talk.update({ watchedAt: talk.watchedAt, rate: talk.rate }, 
+        { where: { talkerId: id } });
+    return true;
+};
+
+const updateTalker = async (id, name, age, talk, data) => {
     const idError = schema.validateId(id);
     if (idError.type) return idError;
     const nameError = schema.validateName(name);
@@ -59,10 +77,11 @@ const updateTalker = async (id, name, age, talk) => {
     if (ageError.type) return ageError;
     const talkError = schema.validateTalk(talk);
     if (talkError.type) return talkError;
-
+    if (id !== data.id.toString()) {
+        return { type: 'INVALID_TOKEN', message: 'Usuário não autorizado' };
+    };
     await Talker.update({ fullName: name, age }, { where: { id } });
-    await Talk.update({ watchedAt: talk.watchedAt, rate: talk.rate }, 
-        { where: { talkerId: id } });
+    await updateTalk(id, talk);
     const talker = await Talker.findByPk(id, { attributes: { exclude: ['password'] }, 
         include: 'talks' });
 
