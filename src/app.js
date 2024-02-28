@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 app.get('/talker', Talker.getAll);
-app.get('/talker/search', Talker.getByQuery);
+app.get('/talker/search', validateJWT, Talker.getByQuery);
 app.get('/talker/:id', Talker.getTalkerById);
 app.post('/login', Talker.login);
 app.post('/talker', validateJWT, Talker.addTalker);
