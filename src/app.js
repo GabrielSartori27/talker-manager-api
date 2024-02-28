@@ -13,6 +13,6 @@ app.get('/talker/:id', Talker.getTalkerById);
 app.post('/login', Talker.login);
 app.post('/talker', validateJWT, Talker.addTalker);
 app.put('/talker/:id', validateJWT, Talker.updateTalker);
-app.delete('/talker/:id', Talker.deleteTalker);
+app.delete('/talker/:id', validateJWT, Talker.deleteTalker);
 
 module.exports = app;

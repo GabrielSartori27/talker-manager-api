@@ -49,7 +49,8 @@ const updateTalker = async (req, res) => {
 
 const deleteTalker = async (req, res) => {
   const { id } = req.params;
-  const { type, message } = await TalkerService.deleteTalker(id);
+  const { dataValues } = req.user.message;
+  const { type, message } = await TalkerService.deleteTalker(id, dataValues);
   
   if (type) return res.status(errorMap.mapError(type)).json(message);
 

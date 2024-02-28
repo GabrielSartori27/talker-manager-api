@@ -28,9 +28,11 @@ const login = async (email, password) => {
     if (emailError.type) return emailError;
     const passwordError = schema.validatePassword(password);
     if (passwordError.type) return passwordError;
-
-    const user = await Talker.findOne({ where: { email, password } });
-    if (!user) return { type: 'USER_NOT_FOUND', message: 'Usuário não encontrado' };
+    const user = await Talker.findOne({ where: { email } });
+    const checkPassword = bcrypt.compareSync(password, user.password);
+    if (!user || !checkPassword) {
+        return { type: 'USER_NOT_FOUND', message: 'Usuário não encontrado' };
+    }
 
     const jwtConfig = {
         expiresIn: '7d',
@@ -84,9 +86,12 @@ const updateTalker = async (id, talker, data) => {
     return { type: null, message: updatedTalker };
 };
 
-const deleteTalker = async (id) => {
+const deleteTalker = async (id, data) => {
     const idError = schema.validateId(id);
     if (idError.type) return idError;
+    if (id !== data.id.toString()) {
+        return { type: 'INVALID_TOKEN', message: 'Usuário não autorizado' };
+    }
     const talker = await Talker.findByPk(id, { attributes: { exclude: ['password'] } });
     if (!talker) return { type: 'USER_NOT_FOUND', message: 'Usuário não encontrado' };
 
