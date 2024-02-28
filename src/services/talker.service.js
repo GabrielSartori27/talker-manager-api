@@ -29,10 +29,9 @@ const login = async (email, password) => {
     const passwordError = schema.validatePassword(password);
     if (passwordError.type) return passwordError;
     const user = await Talker.findOne({ where: { email } });
+    if (!user) return { type: 'USER_NOT_FOUND', message: 'Usuário não encontrado' };
     const checkPassword = bcrypt.compareSync(password, user.password);
-    if (!user || !checkPassword) {
-        return { type: 'USER_NOT_FOUND', message: 'Usuário não encontrado' };
-    }
+    if (!checkPassword) return { type: 'USER_NOT_FOUND', message: 'Usuário não encontrado' };
 
     const jwtConfig = {
         expiresIn: '7d',

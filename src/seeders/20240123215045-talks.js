@@ -12,11 +12,6 @@ module.exports = {
           rate: 5,
           talker_id: 2,
         },
-        {
-          watched_at: '2024-03-10',
-          rate: 4.8,
-          talker_id: 1,
-        },
       ],
       {}),
 
