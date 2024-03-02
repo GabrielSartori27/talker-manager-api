@@ -3,16 +3,16 @@ module.exports = {
   up: async (queryInterface, _Sequelize) => queryInterface.bulkInsert('talkers',
     [
       {
-        full_name: 'John',
+        full_name: 'Admin',
         age: 35,
-        email: 'john@test.com',
+        email: 'admin@email.com',
         password: '$2b$10$C/QWbn.hg7VQ2aa72tnNeu8js6e10auhbky4ikZEtxEHAL33Gs5Wu',
         // password: test123
       },
       {
-        full_name: 'Maria',
+        full_name: 'Admin2',
         age: 32,
-        email: 'maria@test.com',
+        email: 'admin2@email.com',
         password: '$2b$10$MtYZacwLBIDrTDnw3tscSOBT.aslqlV9PFK9ckRp/4BpIDTz/XZNO',
         // password: test321
       },

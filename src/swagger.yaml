@@ -1,0 +1,275 @@
+openapi: 3.0.1
+info:
+  title: Talker Manager API
+  description: API to control and organize talkers and their talks.
+  version: '2.0'
+  contact:
+    name: My Linkedin
+    url: https://www.linkedin.com/in/gabriel-sartori-b9b44622a/
+externalDocs:
+  description: Project on GitHub
+  url: https://github.com/GabrielSartori27/talker-manager-api
+servers:
+- url: http://localhost:3001
+  description: Local API
+paths:
+  /talker:
+    get:
+      summary: Get all talkers
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Talkers"
+    post:
+      summary: Create new talker
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+                  example: 123456
+                  minLength: 6
+                age:
+                  type: integer
+                  minimum: 18
+                talk:
+                  type: object
+                  properties:
+                    watchedAt:
+                      type: string
+                      example: "AAAA-MM-DD"
+                    rate:
+                      type: number
+                      example: 5
+                      minimum: 1
+                      maximum: 5
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Talkers"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              example: "Invalid field"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              example: "Invalid token"
+      security:
+      - auth: []
+  /login:
+    post:
+      summary: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: admin@email.com
+                password:
+                  type: string
+                  format: password
+                  example: test123
+                  minLength: 6
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "JWT Token"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              example: "Invalid field"
+        404:
+          description: User not found
+          content:
+            application/json:
+              example: "Not Found"
+                  
+  /talker/{id}:
+    parameters:
+    - name: id
+      in: path
+      schema:
+        type: integer
+      required: true
+    get:
+      summary: Get talker by id
+      responses:
+        200:
+          description: Sucess
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Talkers"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              example: "Invalid field"
+        404:
+          description: Talker not found
+          content:
+            application/json:
+              example: "Not Found"
+    put:
+      summary: Update talker by id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                age:
+                  type: integer
+                  minimum: 18
+                talk:
+                  type: object
+                  properties:
+                    watchedAt:
+                      type: string
+                      example: 'AAAA-MM-DD'
+                    rate:
+                      type: number
+                      example: 5
+                      minimum: 1
+                      maximum: 5
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Talkers"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              example: "Invalid field"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              example: "Invalid token"
+        404:
+          description: Talker not found
+          content:
+            application/json:
+              example: "Not Found"
+      security:
+      - auth: []
+    delete:
+      summary: Delete talker by id
+      responses:
+        204:
+          description: Sucess
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              example: "Invalid token"
+        404:
+          description: Talker not found
+          content:
+            application/json:
+              example: "Not Found"
+      security:
+      - auth: []
+  /talker/search:
+    parameters:
+    - in: query
+      name: q
+      schema: 
+        type: string
+        description: Talker name
+        example: Talker name
+    get:
+      summary: Get talker by name
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Talkers"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              example: "Invalid token"
+      security:
+      - auth: []
+components:
+  schemas:
+    Talkers:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        fullName:
+          type: string
+        email:
+          type: string
+          format: email
+        age:
+          type: integer
+          minimum: 18
+        talk:
+          $ref: "#/components/schemas/Talks"
+    Talks:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 1
+          watchedAt:
+            type: string
+            example: 'AAAA-MM-DD'
+          rate:
+            type: number
+            example: 5
+            minimum: 1
+            maximum: 5
+          talkerId:
+            type: number
+            example: 1
+  securitySchemes:
+    auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
