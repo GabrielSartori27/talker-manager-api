@@ -38,7 +38,7 @@ const addTalker = async (req, res) => {
 
 const updateTalker = async (req, res) => {
   const { id } = req.params;
-  const { dataValues } = req.user.message;
+  const { dataValues } = req.user;
   const talker = req.body;
   const { type, message } = await TalkerService.updateTalker(id, talker, dataValues);
 
@@ -49,7 +49,7 @@ const updateTalker = async (req, res) => {
 
 const deleteTalker = async (req, res) => {
   const { id } = req.params;
-  const { dataValues } = req.user.message;
+  const { dataValues } = req.user;
   const { type, message } = await TalkerService.deleteTalker(id, dataValues);
   
   if (type) return res.status(errorMap.mapError(type)).json(message);

@@ -10,7 +10,7 @@ const nameSchema = Joi.string().min(3).required();
 const talkSchema = Joi.object({
     watchedAt: Joi.date().format('YYYY-MM-DD').required().messages({
       'date.empty': 'O campo "watchedAt" é obrigatório',
-      'date.format': 'O campo "watchedAt" deve ter o formato "aaaa-mm/dd"',
+      'date.format': 'O campo "watchedAt" deve ter o formato "aaaa-mm-dd"',
     }),
     rate: Joi.number().min(1).max(5).required()
 .messages({

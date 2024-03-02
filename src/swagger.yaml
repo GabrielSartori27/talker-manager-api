@@ -13,6 +13,45 @@ servers:
 - url: http://localhost:3001
   description: Local API
 paths:
+  /login:
+    post:
+      summary: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: admin@email.com
+                password:
+                  type: string
+                  format: password
+                  example: test123
+                  minLength: 6
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "JWT Token"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              example: "Invalid field"
+        404:
+          description: User not found
+          content:
+            application/json:
+              example: "Not Found"
   /talker:
     get:
       summary: Get all talkers
@@ -75,47 +114,7 @@ paths:
             application/json:
               example: "Invalid token"
       security:
-      - auth: []
-  /login:
-    post:
-      summary: Login
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  format: email
-                  example: admin@email.com
-                password:
-                  type: string
-                  format: password
-                  example: test123
-                  minLength: 6
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  token:
-                    type: string
-                    example: "JWT Token"
-        400:
-          description: Bad Request
-          content:
-            application/json:
-              example: "Invalid field"
-        404:
-          description: User not found
-          content:
-            application/json:
-              example: "Not Found"
-                  
+      - auth: []                 
   /talker/{id}:
     parameters:
     - name: id

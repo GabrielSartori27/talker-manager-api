@@ -1,6 +1,6 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const TalkerService = require('../services/talker.service');
+const { Talker } = require('../models/index');
 
 const secret = process.env.JWT_SECRET;
 
@@ -15,7 +15,7 @@ module.exports = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, secret);
-        const user = await TalkerService.findById(decoded.data.userId);
+        const user = await Talker.findByPk(decoded.data.userId);
         if (!user) return res.status(401).json({ message: 'Usuário do token não encontrado' });
         req.user = user;
         next();
