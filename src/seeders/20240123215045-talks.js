@@ -4,12 +4,12 @@ module.exports = {
       [
         {
           watched_at: '2024-02-25',
-          rate: 4.5,
+          rate: 5,
           talker_id: 1,
         },
         {
           watched_at: '2024-01-21',
-          rate: 5,
+          rate: 3,
           talker_id: 2,
         },
       ],
