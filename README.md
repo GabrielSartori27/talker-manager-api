@@ -7,7 +7,7 @@ Como esta foi minha primeira API desenvolvida durante o curso, tive a ideia de r
 
 Refatorar a primeira API do curso foi uma excelente maneira de revisar e praticar os principais conteúdos abordados. Caso tenha interesse é possível visualizar o código original do projeto no arquivo `previous-code.js` e ter uma ideia de como ele evoluiu.
 
-## Técnologias utilizadas
+## Tecnologias utilizadas
 
 NodeJS, ExpressJS, MYSQL, ES6, Sequelize ORM, JWT Token, bcrypt, Joi. 
 
@@ -53,9 +53,9 @@ npm install
 ### Rodando Localmente:
 Observação: para rodar localmente é necessário ter o MySQL instalado em sua máquina.
 * Instale as dependências:
-```bash 
-npm install
-``` 
+  ```bash 
+  npm install
+  ``` 
 ## Executando aplicação
 
 * Para criar e popular o banco de dados:
